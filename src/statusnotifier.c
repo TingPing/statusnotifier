@@ -1843,6 +1843,10 @@ dbus_reg_item (StatusNotifierItem *sn)
     StatusNotifierItemPrivate *priv = sn->priv;
     gchar buf[64], *b = buf;
 
+    bus_acquired (g_dbus_proxy_get_connection (priv->dbus_proxy), NULL, sn);
+    name_acquired (NULL, g_dbus_connection_get_unique_name (priv->dbus_conn), sn);
+    return;
+
     if (G_UNLIKELY (g_snprintf (buf, 64, "org.kde.StatusNotifierItem-%u-%u",
                     getpid (), ++uniq_id) >= 64))
         b = g_strdup_printf ("org.kde.StatusNotifierItem-%u-%u",
